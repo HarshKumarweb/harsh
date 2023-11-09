@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label {
+      margin-bottom: 8px;
+    }
+
+    input {
+      padding: 8px;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .success-message {
+      color: green;
+      margin-top: 10px;
+    }
+  </style>
+  <title>Signup Page</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Sign Up</h1>
+    <form id="signup-form">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit" id="signup-button">Sign Up</button>
+
+      <p class="success-message" id="success-message"></p>
+    </form>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.3.0/firebase-auth.js';
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyAeF1DGTjnfoFOSW5kO0FTjeI-GqTwo3A4",
+  authDomain: "contactform-7a8e2.firebaseapp.com",
+  databaseURL: "https://contactform-7a8e2-default-rtdb.firebaseio.com",
+  projectId: "contactform-7a8e2",
+  storageBucket: "contactform-7a8e2.appspot.com",
+  messagingSenderId: "1093687480740",
+  appId: "1:1093687480740:web:9620b2d6224e272422b131"
+};
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const auth = getAuth(firebaseApp);
+
+    const signupForm = document.getElementById('signup-form');
+    const successMessage = document.getElementById('success-message');
+
+    signupForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        successMessage.textContent = 'Signup successful!';
+
+        // Additional action or redirection can be added here
+        // For example, redirecting to another page after a delay
+        setTimeout(() => {
+          window.location.href = 'success.html'; // Replace with the desired HTML file
+        }, 2000);
+
+        console.log("User signed up:", userCredential.user);
+      } catch (error) {
+        console.error("Error signing up:", error.message);
+      }
+    });
+  </script>
+</body>
+</html>
